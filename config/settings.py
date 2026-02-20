@@ -130,3 +130,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+class StudyGroupViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
