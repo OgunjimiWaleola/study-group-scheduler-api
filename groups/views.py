@@ -31,3 +31,10 @@ from django.utils import timezone
 
         group.participants.add(request.user)
         return Response({"message": "Joined group successfully"})
+
+
+    @action(detail=True, methods=['post'])
+    def leave(self, request, pk=None):
+        group = self.get_object()
+        group.participants.remove(request.user)
+        return Response({"message": "Left group"})
