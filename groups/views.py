@@ -3,6 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 from .models import StudyGroup
 from .serializers import StudyGroupSerializer
@@ -12,6 +14,8 @@ class StudyGroupViewSet(ModelViewSet):
     queryset = StudyGroup.objects.all()
     serializer_class = StudyGroupSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['subject', 'created_by']
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
