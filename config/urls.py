@@ -8,6 +8,10 @@ router.register('groups', StudyGroupViewSet, basename='groups')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('users.urls')),   # /api/register/
-    path('api/', include(router.urls)),    # /api/groups/
+
+    # Users app for auth
+    path('api/', include('users.urls')),
+
+    # Groups API
+    path('api/', include(router.urls)),
 ]
