@@ -6,8 +6,8 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
-SECRET_KEY = 'your-secret-key-here'
-DEBUG = False  # False for production
+SECRET_KEY = 'django-insecure-4mg^%0%$gxwm-@)ltvq0b*_$c#n0=wo!=4y(eoudhbug+8lh&p'
+DEBUG = False  
 ALLOWED_HOSTS = ['*'] 
 
 # Installed apps
@@ -57,8 +57,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=True
     )
 }
 
