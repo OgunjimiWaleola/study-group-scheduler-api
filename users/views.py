@@ -7,32 +7,42 @@ from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
 
 
-
 class RegisterView(APIView):
-    permission_classes = [AllowAny]  # anyone can register
+    permission_classes = [AllowAny]
 
     def post(self, request):
         username = request.data.get("username")
         email = request.data.get("email")
         password = request.data.get("password")
 
-        if User.objects.filter(username=username).exists():
-            return Response({"error": "Username already exists"}, status=400)
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
 
-        user = User.objects.create_user(username=username, email=email, password=password)
-        token = Token.objects.create(user=user)
-        return Response({"message": "User created", "token": token.key})
+        return Response(
+            {"message": "User created successfully"},
+            status=201
+        )
+
+
 
 class LoginView(APIView):
-    permission_classes = [AllowAny]  # anyone can login
+    permission_classes = [AllowAny]
 
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
+
         user = authenticate(username=username, password=password)
 
-        if not user:
+        if user is None:
             return Response({"error": "Invalid credentials"}, status=400)
 
-        token, _ = Token.objects.get_or_create(user=user)
-        return Response({"message": "Login successful", "token": token.key})
+        token, created = Token.objects.get_or_create(user=user)
+
+        return Response({
+            "message": "Login successful",
+            "token": token.key
+        })
