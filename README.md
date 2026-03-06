@@ -79,3 +79,177 @@ Notes:
 All endpoints require authentication except registration and login.
 Only group creators can update or delete groups.
 Users cannot join past groups or join the same group twice.
+
+
+API DOCUMENTATION
+
+Base URL:
+http://study-group-scheduler-api-production.up.railway.app/api/
+
+
+Authentication
+This API uses Token Authentication.
+After login, the server returns a token which must be included in every request.
+
+Header Format
+Authorization: Token your_token_here
+
+
+1. Register User
+
+Create a new account.
+
+Endpoint
+POST /api/register/
+
+Request Body
+{
+  "username": "waleola",
+  "email": "waleola55@gmail.com",
+  "password": "54190"
+}
+
+Response
+{
+  "message": "User created successfully",
+}
+
+
+2. Login User
+
+Authenticate an existing user.
+
+Endpoint
+POST /api/login/
+Request Body
+{
+  "username": "waleola",
+  "password": "54190"
+}
+
+
+Response
+{
+  "message": "Login successful",
+  "token": "your_generated_token"
+}
+
+
+3. POST /api/group/
+Headers
+Authorization: Token your_token
+Request Body
+
+body
+
+{
+  "title": "indicies",
+  "description": "Deep dive into indicies",
+  "subject": "mathematics",
+  "location": "Zoom Meeting",
+  "scheduled_date": "2026-05-10T18:00:00Z"
+}
+
+
+resonse
+
+{
+    "id": 9,
+    "participants_count": 0,
+    "title": "indicies",
+    "subject": "mathematics",
+    "description": "Deep dive into indicies",
+    "location": "Zoom Meeting",
+    "scheduled_date": "2026-05-10T18:00:00Z",
+    "max_participants": 10,
+    "created_at": "2026-03-06T18:29:16.046901Z",
+    "created_by": 1,
+    "participants": []
+}
+
+
+4. Get All Study Groups
+
+Retrieve all available study groups.
+
+Endpoint
+GET /api/group/
+Headers
+Authorization: Token your_token
+
+response
+
+{
+    "id": 9,
+    "participants_count": 0,
+    "title": "indicies",
+    "subject": "mathematics",
+    "description": "Deep dive into indicies",
+    "location": "Zoom Meeting",
+    "scheduled_date": "2026-05-10T18:00:00Z",
+    "max_participants": 10,
+    "created_at": "2026-03-06T18:29:16.046901Z",
+    "created_by": 1,
+    "participants": []
+}
+
+
+5. Join Study Group
+
+Join an existing study group.
+Endpoint
+POST /api/group/{1}/join/
+
+Example
+POST /api/group/1/join/
+Headers
+Authorization: Token your_token
+Response
+{
+  "message": "Successfully joined the study group"
+}
+
+
+6. Leave Study Group
+
+Leave a study group.
+Endpoint
+POST /api/group/{1}/leave/
+
+Example
+POST /api/group/1/leave/
+Headers
+Authorization: Token your_token
+Response
+{
+  "message": "You have left the study group"
+}
+
+
+
+7. Delete Study Group
+
+Delete a study group (only the creator can delete).
+
+Endpoint
+DELETE /api/group/{1}/delete/
+
+Example
+DELETE /api/group/1/delete/
+Headers
+Authorization: Token your_token
+Response
+{
+  "message": "Study group deleted successfully"
+}
+
+
+Status  Codes
+Code	             Meaning
+200	           Successful request
+201	           Resource created
+400	           Bad request
+401	           Unauthorized
+404	           Resource not found
+
+
